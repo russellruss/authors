@@ -9,7 +9,16 @@
 <script type="text/javascript" src="index.js"></script>
 </head>
 <body>
-	<button onclick="test()">Hola touch me</button>
-	
+	<div class="row">
+		<div class="col-md-4">
+			<a class="btn btn-default btn-lg" href="authorP/authorP.jsp">Autores Producción</a> 
+		</div>
+		<div class="col-md-4">
+			<a class="btn btn-default btn-lg" href="authorsPro/authors.jsp">Autores Regalias</a> 
+		</div>
+		<div class="col-md-4">
+			<a class="btn btn-default btn-lg" href="authorsList/authorsList.jsp">Asignación de seudónimo</a> 
+		</div>
+	</div>
 </body>
 </html>

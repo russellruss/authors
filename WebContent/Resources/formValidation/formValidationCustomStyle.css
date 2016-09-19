@@ -1,0 +1,9 @@
+.selectContainer .form-control-feedback,
+.textAreaContainer .form-control-feedback{
+    top: 25px;
+    right: -20px;
+}
+
+
+
+

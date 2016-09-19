@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 19/09/2016 11:13:12 AM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="trillas.mx.pojos.Authorbluvista" table="authorbluvista" catalog="authorbd" optimistic-lock="version">
+        <id name="idAuthorBluvista" type="java.lang.Integer">
+            <column name="idAuthorBluvista" />
+            <generator class="identity" />
+        </id>
+        <property name="authorBluvista" type="string">
+            <column name="authorBluvista" not-null="true" unique="true" />
+        </property>
+        <property name="authorBook" type="string">
+            <column name="authorBook" />
+        </property>
+        <set name="pseudonyms" table="pseudonym" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="f_authorBluvista" not-null="true" />
+            </key>
+            <one-to-many class="trillas.mx.pojos.Pseudonym" />
+        </set>
+    </class>
+</hibernate-mapping>

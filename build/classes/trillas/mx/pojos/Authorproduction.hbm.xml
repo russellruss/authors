@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 19/09/2016 11:13:12 AM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="trillas.mx.pojos.Authorproduction" table="authorproduction" catalog="authorbd" optimistic-lock="version">
+        <id name="idAuthorProduction" type="java.lang.Integer">
+            <column name="idAuthorProduction" />
+            <generator class="identity" />
+        </id>
+        <property name="nameAuthorProduction" type="string">
+            <column name="nameAuthorProduction" not-null="true" />
+        </property>
+        <property name="nameBook" type="string">
+            <column name="nameBook" not-null="true" />
+        </property>
+        <property name="idCorrespondence" type="java.lang.Integer">
+            <column name="idCorrespondence" />
+        </property>
+    </class>
+</hibernate-mapping>

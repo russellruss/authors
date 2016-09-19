@@ -1,5 +1,5 @@
 package trillas.mx.pojos;
-// Generated 19/09/2016 11:13:12 AM by Hibernate Tools 4.3.1
+// Generated 19/09/2016 02:39:09 PM by Hibernate Tools 4.3.1
 
 
 
@@ -10,14 +10,14 @@ public class Pseudonym  implements java.io.Serializable {
 
 
      private Integer idPseudonym;
-     private Authorbluvista authorbluvista;
+     private Authorproduction authorproduction;
      private String pseudonymName;
 
     public Pseudonym() {
     }
 
-    public Pseudonym(Authorbluvista authorbluvista, String pseudonymName) {
-       this.authorbluvista = authorbluvista;
+    public Pseudonym(Authorproduction authorproduction, String pseudonymName) {
+       this.authorproduction = authorproduction;
        this.pseudonymName = pseudonymName;
     }
    
@@ -28,12 +28,12 @@ public class Pseudonym  implements java.io.Serializable {
     public void setIdPseudonym(Integer idPseudonym) {
         this.idPseudonym = idPseudonym;
     }
-    public Authorbluvista getAuthorbluvista() {
-        return this.authorbluvista;
+    public Authorproduction getAuthorproduction() {
+        return this.authorproduction;
     }
     
-    public void setAuthorbluvista(Authorbluvista authorbluvista) {
-        this.authorbluvista = authorbluvista;
+    public void setAuthorproduction(Authorproduction authorproduction) {
+        this.authorproduction = authorproduction;
     }
     public String getPseudonymName() {
         return this.pseudonymName;

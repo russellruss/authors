@@ -7,8 +7,10 @@
     <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/authorbd?zeroDateTimeBehavior=convertToNull</property>
     <property name="hibernate.connection.username">root</property>
     <property name="hibernate.connection.password">root</property>
-    <mapping resource="trillas/mx/pojos/Authorproduction.hbm.xml"/>
-    <mapping resource="trillas/mx/pojos/Authorbluvista.hbm.xml"/>
+   	<mapping resource="trillas/mx/pojos/Authorproduction.hbm.xml"/>
+    <mapping resource="trillas/mx/pojos/Bookauthor.hbm.xml"/>
+    <mapping resource="trillas/mx/pojos/Book.hbm.xml"/>
+    <mapping resource="trillas/mx/pojos/Authorregalias.hbm.xml"/>
     <mapping resource="trillas/mx/pojos/Pseudonym.hbm.xml"/>
   </session-factory>
 </hibernate-configuration>

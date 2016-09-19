@@ -1,21 +1,36 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 19/09/2016 11:13:12 AM by Hibernate Tools 4.3.1 -->
+<!-- Generated 19/09/2016 02:39:09 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="trillas.mx.pojos.Authorproduction" table="authorproduction" catalog="authorbd" optimistic-lock="version">
         <id name="idAuthorProduction" type="java.lang.Integer">
             <column name="idAuthorProduction" />
             <generator class="identity" />
         </id>
-        <property name="nameAuthorProduction" type="string">
-            <column name="nameAuthorProduction" not-null="true" />
+        <property name="firstName" type="string">
+            <column name="firstName" />
         </property>
-        <property name="nameBook" type="string">
-            <column name="nameBook" not-null="true" />
+        <property name="lastName" type="string">
+            <column name="lastName" />
         </property>
-        <property name="idCorrespondence" type="java.lang.Integer">
-            <column name="idCorrespondence" />
+        <property name="mlastName" type="string">
+            <column name="mLastName" />
         </property>
+        <property name="nationality" type="string">
+            <column name="nationality" />
+        </property>
+        <set name="bookauthors" table="bookauthor" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="f_authorProduction" not-null="true" />
+            </key>
+            <one-to-many class="trillas.mx.pojos.Bookauthor" />
+        </set>
+        <set name="pseudonyms" table="pseudonym" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="AuthorProduction_idAuthorProduction" not-null="true" />
+            </key>
+            <one-to-many class="trillas.mx.pojos.Pseudonym" />
+        </set>
     </class>
 </hibernate-mapping>

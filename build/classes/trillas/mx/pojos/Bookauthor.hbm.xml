@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 19/09/2016 02:39:09 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="trillas.mx.pojos.Bookauthor" table="bookauthor" catalog="authorbd" optimistic-lock="version">
+        <id name="idBookAuthor" type="java.lang.Integer">
+            <column name="idBookAuthor" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="authorproduction" class="trillas.mx.pojos.Authorproduction" fetch="select">
+            <column name="f_authorProduction" not-null="true" />
+        </many-to-one>
+        <many-to-one name="book" class="trillas.mx.pojos.Book" fetch="select">
+            <column name="f_book" not-null="true" />
+        </many-to-one>
+        <property name="idRealAuthor" type="java.lang.Integer">
+            <column name="idRealAuthor" />
+        </property>
+    </class>
+</hibernate-mapping>

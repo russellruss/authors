@@ -25,6 +25,9 @@ public class AuthorProductionImp implements AuthorProductionDAO {
 			
 		} catch (Exception e) {
 			e.printStackTrace();
+		}finally {
+			if (session != null)
+				session.close();
 		}
 		return listAP;
 	}
@@ -59,6 +62,9 @@ public class AuthorProductionImp implements AuthorProductionDAO {
 			
 		} catch (Exception e) {
 			e.printStackTrace();
+		}finally {
+			if (session != null)
+				session.close();
 		}
 		return AProduction;
 	}

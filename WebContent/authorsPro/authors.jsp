@@ -86,7 +86,7 @@
 																	<th>id Autor Prod.</th>
 																	<th>nombre AutorProd.</th>
 																	<th>nombre Obra</th>
-																	<th></th>
+																	<th>id Autor Real</th>
 																</tr>
 															</thead>
 															<tbody id="authorsList">

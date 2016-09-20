@@ -25,10 +25,14 @@ public class BookAuthorDAOImp implements BookAuthorDAO {
 			listBA = session.createCriteria(Bookauthor.class)
 					.createAlias("book", "book")
 					.createAlias("authorproduction", "authorPro")
+//					.setResultTransformer(Criteria.ALIAS_TO_ENTITY_MAP)	
 					.list();
 			
 		} catch (Exception e) {
 			e.printStackTrace();
+		}finally {
+			if (session != null)
+				session.close();
 		}
 		return listBA;
 	}
@@ -63,6 +67,9 @@ public class BookAuthorDAOImp implements BookAuthorDAO {
 			
 		} catch (Exception e) {
 			e.printStackTrace();
+		}finally {
+			if (session != null)
+				session.close();
 		}
 		return bookA;
 	}

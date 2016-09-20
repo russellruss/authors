@@ -20,7 +20,7 @@
         <property name="nationality" type="string">
             <column name="nationality" />
         </property>
-        <set name="bookauthors" table="bookauthor" inverse="true" lazy="true" fetch="select">
+        <set name="bookauthors" table="bookauthor" lazy="true" fetch="select">
             <key>
                 <column name="f_authorProduction" not-null="true" />
             </key>

@@ -1,10 +1,3 @@
-var idAuthorBluvista=[12,16,22,14,3,16,69,86,96];
-var authorBook=["LEIGH","MCCAUGHREAN","BERUMEN","ARVIZUR","MARTINEZ","URIBE","AYALA","MORALES","ANTOINE DE SAINT EXUPERY"];
-var authorBluvista=["LEIGH","MCCAUGHREAN","BERUMEN","ARVIZUR","MARTINEZ","URIBE","AYALA","MORALES","ANTOINE DE SAINT EXUPERY"];
-var editor; 
-
-var todo = {
-};
 
 
 function refresh(){
@@ -25,7 +18,7 @@ function getAuthors() {
 }
 
 function drawAuthors(data){
-	console.debug(data);
+//	console.debug(data);
 	var tblAuthors = '';
 	if (data != "") {
 		for ( var i in data) {
@@ -36,8 +29,8 @@ function drawAuthors(data){
 							'<td>'+data[i].book+'</td>' +
 							'<td id="cell'+i+'">'+
 								'<div class="form-group has-feedback inputContainer">'+
-									'<input id="pseudonyms'+i+'" name="pseudonyms'+i+'" class="form-control pseudonymInput" type="text" maxlength="250" required size="45">'+
-									'<a id="btnSave'+i+'" class="btn btn-animated btn-success disabled" onclick="saveIdMaster('+i+')">'+
+									'<input id="regalias-'+i+'" name="regalias-'+i+'" class="form-control pseudonymInput" type="text" required data-fv-integer="true" min="1" max="100000">'+
+									'<a id="btnSave'+i+'" class="btn btn-animated btn-success " onclick="saveIdMaster('+i+','+data[i].idAuthorRegalias+')">'+
 										'Guardar'+
 										'<i class="fa fa-floppy-o"></i>'+
 									'</a>'+	
@@ -52,17 +45,48 @@ function drawAuthors(data){
 }
 
 
-function saveIdMaster(id){
-	var pseudonyms = $("#pseudonyms"+id).val().split("|");
-	console.debug("Guardando:")
-	for(var i = 0;i<pseudonyms.length;i++)
-		if(pseudonyms[i] != "")
-			console.debug(pseudonyms[i]);
-	$("#btnSave"+id).hide();
-	$("#authorsForm").data("formValidation").resetField( "pseudonyms"+id);
-	$("#pseudonyms"+id).hide();
+function saveIdMaster(idRow,idARegalias){
+	var idRealAuthor=$("#regalias-"+idRow).val();
+	$.ajax({
+		type : "POST",
+		url : "../authorServlet",
+		data : "flag=updateARegalias&idAregalias="+idARegalias+"&idRealAuthor="+idRealAuthor,
+		success : function(data) {
+			if(data.status=="ok"){
+				$("#cell"+idRow).html("<label>GUARDADO</label>");
+			}else{
+				alert("error al guardar el autor")
+			}
+			
+		},
+		error : function(data) {
+			alert("error al guardar el autor")
+		}
+	});
 	
-	$("#cell"+id).append("<label>GUARDADO</label>");
+//	var pseudonyms = $("#pseudonyms"+id).val().split("|");
+//	console.debug("Guardando:")
+//	for(var i = 0;i<pseudonyms.length;i++)
+//		if(pseudonyms[i] != "")
+//			console.debug(pseudonyms[i]);
+//	$("#btnSave"+id).hide();
+//	$("#authorsForm").data("formValidation").resetField( "pseudonyms"+id);
+//	$("#pseudonyms"+id).hide();
+//	
+//	$("#cell"+id).append("<label>GUARDADO</label>");
+}
+
+
+function validateRealId(){
+	$("body").on("input",".pseudonymInput",function(e){
+		if($("#authorsForm").data("formValidation").isValidField(""+e.target.id+""))
+		{	//ACTIVATE BUTTON
+			$("#btnSave"+e.target.id.substring(10)).removeClass( "disabled" );
+			
+		}
+		else
+			$("#btnSave"+e.target.id.substring(10)).addClass( "disabled" );
+	});
 }
 
 
@@ -149,22 +173,24 @@ function initDataTable(id){
 
 $( document ).ready(function() {
 	
-	var values = [];
-	for (var ln = 0; ln < authorBluvista.length; ln++) {
-	    var item1 = {
-	         "id":idAuthorBluvista[ln],
-	         "author":authorBluvista[ln],
-	    	 "authorBook":authorBook[ln] 
-	    };
-	    values.push(item1);
-	}
-	$.extend(todo, values);
+	validateRealId();
 	
-	console.debug(todo);
-	//getAuthors();
-	
-	
-	initDataTable("#authorsTable");
-	
+//	var values = [];
+//	for (var ln = 0; ln < authorBluvista.length; ln++) {
+//	    var item1 = {
+//	         "id":idAuthorBluvista[ln],
+//	         "author":authorBluvista[ln],
+//	    	 "authorBook":authorBook[ln] 
+//	    };
+//	    values.push(item1);
+//	}
+//	$.extend(todo, values);
+//	
+//	console.debug(todo);
+//	//getAuthors();
+//	
+//	
+//	initDataTable("#authorsTable");
+//	
 
 });

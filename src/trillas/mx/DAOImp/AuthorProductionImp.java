@@ -64,13 +64,13 @@ public class AuthorProductionImp implements AuthorProductionDAO {
 	}
 
 	@Override
-	public void updateSeudonimo(Pseudonym seudonimo) throws Exception {
+	public void saveSeudonimo(Pseudonym seudonimo) throws Exception {
 		Session session = null;
 		Transaction trans = null;
 		try {
 			session = HibernateUtil.getSessionFactory().openSession();
 			trans = session.beginTransaction();
-			session.update(seudonimo);
+			session.save(seudonimo);
 			trans.commit();
 		} catch (Exception ex) {
 			if (trans != null)

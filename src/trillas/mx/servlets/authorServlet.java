@@ -8,13 +8,18 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import trillas.mx.DAO.AuthorProductionDAO;
 import trillas.mx.DAO.AuthorRegaliasDAO;
+import trillas.mx.DAO.BookAuthorDAO;
 import trillas.mx.DAOImp.AuthorProductionImp;
 import trillas.mx.DAOImp.AuthorRegaliasDAOImp;
+import trillas.mx.DAOImp.BookAuthorDAOImp;
 import trillas.mx.pojos.Authorproduction;
+import trillas.mx.pojos.Authorregalias;
+import trillas.mx.pojos.Bookauthor;
 import trillas.mx.pojos.Pseudonym;
 
 
@@ -23,6 +28,7 @@ public class authorServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     AuthorProductionDAO authorProductionDAO = new AuthorProductionImp();
     AuthorRegaliasDAO authorRegaliasDAO = new AuthorRegaliasDAOImp();
+    BookAuthorDAO bookAuthorDAO = new BookAuthorDAOImp();
 
     public authorServlet() {
         super();
@@ -37,31 +43,38 @@ public class authorServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		JSONObject jsonO = new JSONObject();
 		Authorproduction authorPro = new  Authorproduction();
+		Authorregalias authorRegalias = new Authorregalias();
 		Pseudonym seudonimo = new Pseudonym();
+		Bookauthor bookauthor = new Bookauthor();
 		try {
 			String flag = request.getParameter("flag");
 			
 			switch (flag) {
 			case "getARegalias":
 				jsonO.put("authorsRegalias", authorRegaliasDAO.getAllAuthorRegalias());
-				
-				
 				break;
-			case "updateAuthorPro":
-				authorPro.setIdAuthorProduction(Integer.parseInt(request.getParameter("idAproduction")));
-				authorPro=authorProductionDAO.getAuthorProById(authorPro);
-				authorProductionDAO.update(authorPro);
-				
+			case "updateARegalias":
+				authorRegalias.setIdAuthorRegalias(Integer.parseInt(request.getParameter("idAregalias")));
+				authorRegalias=authorRegaliasDAO.getAuthorRegaliasById(authorRegalias);
+				authorRegalias.setIdRealAuthor(Integer.parseInt(request.getParameter("idRealAuthor")));
+				authorRegaliasDAO.update(authorRegalias);
+				jsonO.put("status", "ok");
+				break;
+			case "updateBookA":
+				bookauthor.setIdBookAuthor(Integer.parseInt(request.getParameter("idBookA")));
+				bookauthor=bookAuthorDAO.getBookAuthorById(bookauthor);
+				bookauthor.setIdRealAuthor(Integer.parseInt(request.getParameter("realAuthor")));
+				bookAuthorDAO.update(bookauthor);
+				jsonO.put("status", "ok");
 				break;
 			case "saveSeudonimo":
 				authorPro.setIdAuthorProduction(Integer.parseInt(request.getParameter("idAproduction")));
 				seudonimo.setAuthorproduction(authorPro);
 				seudonimo.setPseudonymName(request.getParameter("seudonimo"));
-				
-				authorProductionDAO.updateSeudonimo(seudonimo);
+				authorProductionDAO.saveSeudonimo(seudonimo);
 				break;
 			case "getAProduction":
-				jsonO.put("authorsP", authorProductionDAO.getAllAuthorProduction());
+				jsonO.put("authorsP", bookAuthorDAO.getAllBookAuthors());
 				break;
 			default:
 				break;
@@ -71,8 +84,14 @@ public class authorServlet extends HttpServlet {
 			response.setContentType("application/json");
 			response.getWriter().write(jsonO.toString());
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			try {
+				jsonO.put("status", "error");
+				jsonO.put("data", e.getMessage());
+				response.setContentType("application/json");
+				response.getWriter().write(jsonO.toString());
+			} catch (JSONException e1) {
+				e1.printStackTrace();
+			}
 		}
 	
 	}

@@ -84,7 +84,7 @@
 															<thead>
 																<tr>
 																	<th>id Autor </th>
-																	<th>Autor</th>
+																	<th>Autor Regalias</th>
 																	<th>Autor Obra</th>
 																	<th>Obra</th>
 																	<th>Id Maestro</th>

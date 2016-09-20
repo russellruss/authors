@@ -11,5 +11,5 @@ public interface AuthorProductionDAO {
 	public void update(Authorproduction AProduction)throws Exception;
 	public Authorproduction getAuthorProById(Authorproduction AProduction) throws Exception;
 	
-	public void updateSeudonimo(Pseudonym seudonimo)throws Exception;
+	public void saveSeudonimo(Pseudonym seudonimo)throws Exception;
 }

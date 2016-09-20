@@ -12,38 +12,59 @@ function refresh(){
 }
 
 function getAuthors() {
-//	$.ajax({
-//		type : "POST",
-//		url : "",
-//		data : "bandera=0",
-//		success : function(data) {
-////		console.debug(data);
-			drawAuthors();
-//		},
-//		error : function(data) {
-//			alert('Se encontro un error al cargar las obras nuevas');
-//		}
-//	});
+	$.ajax({
+		type : "POST",
+		url : "../authorServlet",
+		data : "flag=getARegalias",
+		success : function(data) {
+			drawAuthors(data.authorsRegalias);
+		},
+		error : function(data) {
+		}
+	});
 }
 
-function drawAuthors(){
+function drawAuthors(data){
+	console.debug(data);
 	var tblAuthors = '';
-//	showNewBooks();
-//	if (data != "") {
-//		for ( var i in data) {
-		for (var i = 1; i  < 25; i++) {
-			var id = idAuthorBluvista[Math.floor(Math.random() * (3 - 0 + 1)) + 0];
+	if (data != "") {
+		for ( var i in data) {
 			tblAuthors += '<tr role="row" class="odd">' + 
-										'<td>'+id+'</td>' +
-										'<td>'+authorBluvista[Math.floor(Math.random() * (3 - 0 + 1)) + 0]+'</td>' + 
-										'<td>'+authorBook[Math.floor(Math.random() * (3 - 0 + 1)) + 0]+'</td>' +
-									'</tr>';
+							'<td>'+data[i].idAuthorRegalias+'</td>' +
+							'<td>'+data[i].authorRegalias+'</td>' + 
+							'<td>'+data[i].authorBook+'</td>' +
+							'<td>'+data[i].book+'</td>' +
+							'<td id="cell'+i+'">'+
+								'<div class="form-group has-feedback inputContainer">'+
+									'<input id="pseudonyms'+i+'" name="pseudonyms'+i+'" class="form-control pseudonymInput" type="text" maxlength="250" required size="45">'+
+									'<a id="btnSave'+i+'" class="btn btn-animated btn-success disabled" onclick="saveIdMaster('+i+')">'+
+										'Guardar'+
+										'<i class="fa fa-floppy-o"></i>'+
+									'</a>'+	
+								'</div>'+
+							'</td>' +
+							'</tr>';
 		}
-//	} else {
-//		alert("No existen obras nuevas");
-//	}
+	}else {
+		alert("No existen Autores");
+	}
 	$('#authorsList').html(tblAuthors);
 }
+
+
+function saveIdMaster(id){
+	var pseudonyms = $("#pseudonyms"+id).val().split("|");
+	console.debug("Guardando:")
+	for(var i = 0;i<pseudonyms.length;i++)
+		if(pseudonyms[i] != "")
+			console.debug(pseudonyms[i]);
+	$("#btnSave"+id).hide();
+	$("#authorsForm").data("formValidation").resetField( "pseudonyms"+id);
+	$("#pseudonyms"+id).hide();
+	
+	$("#cell"+id).append("<label>GUARDADO</label>");
+}
+
 
 function initDataTable(id){
 	// Set up the editor

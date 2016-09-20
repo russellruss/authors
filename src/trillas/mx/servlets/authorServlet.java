@@ -1,6 +1,7 @@
 package trillas.mx.servlets;
 
 import java.io.IOException;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -10,13 +11,16 @@ import javax.servlet.http.HttpServletResponse;
 import org.json.JSONObject;
 
 import trillas.mx.DAO.AuthorProductionDAO;
+import trillas.mx.DAO.AuthorRegaliasDAO;
 import trillas.mx.DAOImp.AuthorProductionImp;
+import trillas.mx.DAOImp.AuthorRegaliasDAOImp;
 
 
 @WebServlet("/authorServlet")
 public class authorServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     AuthorProductionDAO authorProductionDAO = new AuthorProductionImp();
+    AuthorRegaliasDAO authorRegaliasDAO = new AuthorRegaliasDAOImp();
 
     public authorServlet() {
         super();
@@ -31,7 +35,21 @@ public class authorServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		JSONObject jsonO = new JSONObject();
 		try {
-			jsonO.put("authorsP", authorProductionDAO.getAllAuthorProduction());
+			String flag = request.getParameter("flag");
+			
+			switch (flag) {
+			case "getARegalias":
+				jsonO.put("authorsRegalias", authorRegaliasDAO.getAllAuthorRegalias());
+				
+				
+				break;
+			case "getAProduction":
+				jsonO.put("authorsP", authorProductionDAO.getAllAuthorProduction());
+				break;
+			default:
+				break;
+			}
+			
 			
 			response.setContentType("application/json");
 			response.getWriter().write(jsonO.toString());

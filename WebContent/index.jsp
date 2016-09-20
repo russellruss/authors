@@ -11,13 +11,13 @@
 <body>
 	<div class="row">
 		<div class="col-md-4">
-			<a class="btn btn-default btn-lg" href="authorP/authorP.jsp">Autores Producción</a> 
+			<a class="btn btn-default btn-lg" href="<%=request.getContextPath() %>/authorP/authorP.jsp"> Asignación de seudónimo</a> 
 		</div>
 		<div class="col-md-4">
-			<a class="btn btn-default btn-lg" href="authorsPro/authors.jsp">Autores Regalias</a> 
+			<a class="btn btn-default btn-lg" href="<%=request.getContextPath() %>/authorsPro/authors.jsp">Autores Producción</a> 
 		</div>
 		<div class="col-md-4">
-			<a class="btn btn-default btn-lg" href="authorsList/authorsList.jsp">Asignación de seudónimo</a> 
+			<a class="btn btn-default btn-lg" href="<%=request.getContextPath() %>/authorsList/authorsList.jsp">Autores Regalias</a> 
 		</div>
 	</div>
 </body>

@@ -60,10 +60,16 @@
 									<div class="col-md-6">
 										<h3 id="pageTitle" class="page-title" style="margin-top:10px;">AUTORES</h3>
 									</div>
-									<div class="col-md-6">
+									<div class="col-md-3">
 										<a id="returnButton" class="btn btn-animated btn-default pull-right"  onClick="refresh()" >
 								 			Actualizar
 											<i class="fa fa-refresh"></i>
+										</a>
+									</div>
+									<div class="col-md-3">
+										<a id="returnButton" class="btn btn-animated btn-primary pull-right"  href="<%=request.getContextPath()%>" >
+								 			Regresar
+											<i class="icon-left-1"></i>
 										</a>
 									</div>
 								</div>

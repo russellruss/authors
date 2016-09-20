@@ -26,6 +26,9 @@ public class AuthorRegaliasDAOImp implements AuthorRegaliasDAO {
 			
 		} catch (Exception e) {
 			e.printStackTrace();
+		}finally {
+			if (session != null)
+				session.close();
 		}
 		return listAR;
 	}
@@ -42,6 +45,9 @@ public class AuthorRegaliasDAOImp implements AuthorRegaliasDAO {
 			
 		} catch (Exception e) {
 			e.printStackTrace();
+		}finally {
+			if (session != null)
+				session.close();
 		}
 		return aRegalias;
 	}

@@ -8,35 +8,32 @@ function refresh(){
 }
 
 function getAuthors() {
-//	$.ajax({
-//		type : "POST",
-//		url : "",
-//		data : "bandera=0",
-//		success : function(data) {
-////		console.debug(data);
-			drawAuthors();
-//		},
-//		error : function(data) {
-//			alert('Se encontro un error al cargar las obras nuevas');
-//		}
-//	});
+	$.ajax({
+		type : "POST",
+		url : "../authorServlet",
+		data : "flag=getAProduction",
+		success : function(data) {
+			console.debug(data)
+			drawAuthors(data.BookA);
+		},
+		error : function(data) {
+		}
+	});
 }
 
-function drawAuthors(){
+function drawAuthors(data){
+//	console.debug(data)
 	var tblAuthors = '';
-//	showNewBooks();
-//	if (data != "") {
-//		for ( var i in data) {
-		for (var i = 1; i  < 25; i++) {
-			var id = idAuthorProduction[Math.floor(Math.random() * (3 - 0 + 1)) + 0];
+	if (data != "") {
+		for ( var i in data) {
 			tblAuthors += '<tr role="row" class="odd">' + 
-										'<td>'+id+'</td>' +
-										'<td>'+nameAuthorProduction[Math.floor(Math.random() * (3 - 0 + 1)) + 0]+'</td>' + 
-										'<td>'+nameBook[Math.floor(Math.random() * (3 - 0 + 1)) + 0]+'</td>' +
+										'<td>'+data[i].authorproduction.idAuthorProduction+'</td>' +
+										'<td>'+data[i].authorproduction.lastName+' '+ data[i].authorproduction.mlastName+' '+data[i].authorproduction.firstName+'</td>' + 
+										'<td>'+data[i].book.title+'</td>' +
 										'<td id="cell'+i+'">'+
 												'<div class="form-group has-feedback inputContainer">'+
 												'<input id="pseudonyms'+i+'" name="pseudonyms'+i+'" class="form-control pseudonymInput" type="text" maxlength="250" required size="3" data-fv-integer="true" data-fv-integer-decimalseparator=" ">'+
-												'<a id="btnSave'+i+'" class="btn btn-animated btn-success disabled" onclick="savePseudonyms('+i+')">'+
+												'<a id="btnSave'+i+'" class="btn btn-animated btn-success disabled" onclick="savePseudonyms('+i+','+data[i].idBookAuthor+')">'+
 													'Guardar'+
 													'<i class="fa fa-floppy-o"></i>'+
 												'</a>'+	
@@ -44,10 +41,11 @@ function drawAuthors(){
 										'</td>' +
 									'</tr>';
 		}
-//	} else {
-//		alert("No existen obras nuevas");
-//	}
+	} else {
+		alert("No existen obras nuevas");
+	}
 	$('#authorsList').html(tblAuthors);
+	initDataTable("#authorsTable");
 	$("#authorsForm").formValidation();
 }
 
@@ -78,19 +76,37 @@ function validateNickname(){
 	});
 }
 
-function savePseudonyms(id){
-	var author = $("#pseudonyms"+id).val();
-		console.debug("guardando "+ author);
-	$("#btnSave"+id).hide();
-	$("#authorsForm").data("formValidation").resetField( "pseudonyms"+id);
-	$("#pseudonyms"+id).hide();
+function savePseudonyms(idRow,idBookA){
+	var idRealAuthor = $("#pseudonyms"+idRow).val();
+	alert(idRealAuthor)
+	$.ajax({
+		type : "POST",
+		url : "../authorServlet",
+		data : "flag=updateBookA&idBookA="+idBookA+"&idRealAuthor="+idRealAuthor,
+		success : function(data) {
+			if(data.status=="ok"){
+				$("#cell"+idRow).html("<label>GUARDADO ID:"+idRealAuthor+"</label>");
+			}else{
+				alert("error al guardar el autor")
+			}
+			
+		},
+		error : function(data) {
+			alert("error al guardar el autor")
+		}
+	});
 	
-	$("#cell"+id).append("<label>GUARDADO</label>");
+//	console.debug("guardando "+ author);
+//	$("#btnSave"+id).hide();
+//	$("#authorsForm").data("formValidation").resetField( "pseudonyms"+id);
+//	$("#pseudonyms"+id).hide();
+//	
+//	$("#cell"+id).append("<label>GUARDADO</label>");
 }
 
 $( document ).ready(function() {
 	getAuthors();
-	initDataTable("#authorsTable");
+	
 	validateNickname();
 	
 

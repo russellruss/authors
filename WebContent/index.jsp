@@ -17,7 +17,7 @@
 			<a class="btn btn-default btn-lg" href="<%=request.getContextPath() %>/authorsPro/authors.jsp">Autores Producción</a> 
 		</div>
 		<div class="col-md-4">
-			<a class="btn btn-default btn-lg" href="<%=request.getContextPath() %>/authorsList/authorsList.jsp">Autores Regalias</a> 
+			<a class="btn btn-default btn-lg" href="<%=request.getContextPath() %>/authorsReg/authorsList.jsp">Autores Regalias</a> 
 		</div>
 	</div>
 </body>

@@ -1,6 +1,7 @@
 
 
 function refresh(){
+	$("#authorsForm").data('formValidation').destroy();
 	getAuthors();
 }
 
@@ -18,7 +19,7 @@ function getAuthors() {
 }
 
 function drawAuthors(data){
-//	console.debug(data);
+	table = $("#authorsTable").DataTable().destroy();
 	var tblAuthors = '';
 	if (data != "") {
 		for ( var i in data) {
@@ -29,8 +30,9 @@ function drawAuthors(data){
 							'<td>'+data[i].book+'</td>' +
 							'<td id="cell'+i+'">'+
 								'<div class="form-group has-feedback inputContainer">'+
-									'<input id="regalias-'+i+'" name="regalias-'+i+'" class="form-control pseudonymInput" type="text" required data-fv-integer="true" min="1" max="100000">'+
-									'<a id="btnSave'+i+'" class="btn btn-animated btn-success " onclick="saveIdMaster('+i+','+data[i].idAuthorRegalias+')">'+
+									'<input id="regalias-'+i+'" name="regalias-'+i+'" class="form-control pseudonymInput" type="text" required data-fv-integer="true" data-fv-between="true" data-fv-between-min="1" data-fv-between-max="100000" data-fv-integer-decimalseparator=" "'+
+					                	' data-fv-between-message="Id maestro fuera de rango">'+
+									'<a id="btnSave'+i+'" class="btn btn-animated btn-success disabled" onclick="saveIdMaster('+i+','+data[i].idAuthorRegalias+')">'+
 										'Guardar'+
 										'<i class="fa fa-floppy-o"></i>'+
 									'</a>'+	
@@ -42,6 +44,8 @@ function drawAuthors(data){
 		alert("No existen Autores");
 	}
 	$('#authorsList').html(tblAuthors);
+	$("#authorsForm").formValidation();
+	initDataTable("#authorsTable");
 }
 
 
@@ -53,7 +57,8 @@ function saveIdMaster(idRow,idARegalias){
 		data : "flag=updateARegalias&idAregalias="+idARegalias+"&idRealAuthor="+idRealAuthor,
 		success : function(data) {
 			if(data.status=="ok"){
-				$("#cell"+idRow).html("<label>GUARDADO</label>");
+				$("#authorsForm").formValidation('removeField',"regalias-"+idRow);
+				$("#cell"+idRow).html("<label>GUARDADO ID:"+idRealAuthor+"</label>");
 			}else{
 				alert("error al guardar el autor")
 			}
@@ -81,89 +86,28 @@ function validateRealId(){
 	$("body").on("input",".pseudonymInput",function(e){
 		if($("#authorsForm").data("formValidation").isValidField(""+e.target.id+""))
 		{	//ACTIVATE BUTTON
-			$("#btnSave"+e.target.id.substring(10)).removeClass( "disabled" );
-			
+			$("#btnSave"+e.target.id.substring(9)).removeClass( "disabled" );
 		}
 		else
-			$("#btnSave"+e.target.id.substring(10)).addClass( "disabled" );
+		{
+			$("#btnSave"+e.target.id.substring(9)).addClass( "disabled" );
+		}
 	});
 }
 
 
 function initDataTable(id){
-	// Set up the editor
-    editor = new $.fn.dataTable.Editor( {
-    	table: "#authorsTable",
-        idSrc:  "id",
-        fields: [
-            {
-                label: "id Autor Bluvista:",
-                name: "id"
-            }, {
-                label: "Autor Bluvista:",
-                name: "author"
-            },{
-                label: "Autor obra:",
-                name: "authorBook"
-            }
-        ],
-        ajax: function ( method, url, d, successCallback, errorCallback ) {
-            var output = { data: [] };
- 
-            if ( d.action === 'create' ) {
-                // Create new row(s), using the current time and loop index as
-                // the row id
-                var dateKey = +new Date();
- 
-                $.each( d.data, function (key, value) {
-                    var id = dateKey+''+key;
- 
-                    value.DT_RowId = id;
-                    todo[ id ] = value;
-                    output.data.push( value );
-                } );
-            }
-            else if ( d.action === 'edit' ) {
-                // Update each edited item with the data submitted
-                $.each( d.data, function (id, value) {
-                    value.DT_RowId = id;
-                    alert(id);
-                    $.extend( todo[ id ], value );
-                    output.data.push( todo[ id ] );
-                } );
-            }
-            else if ( d.action === 'remove' ) {
-                // Remove items from the object
-                $.each( d.data, function (id) {
-                    delete todo[ id ];
-                } );
-            }
- 
-            // Store the latest `todo` object for next reload
-            localStorage.setItem( 'todo', JSON.stringify(todo) );
- 
-            // Show Editor what has changed
-            successCallback( output );
-        },
-    
-    
-    } );
 	$(id).DataTable({
-		dom: "Bfrtip",
-        data: $.map( todo, function (value, key) {
-            return value;
-        } ),
-        columns: [
-            { data: "id"},
-            { data: "author"},
-            { data: "authorBook" }
-        ],
-        select: true,
-        buttons: [
-            { extend: "create", editor: editor },
-            { extend: "edit",   editor: editor },
-            { extend: "remove", editor: editor }
-        ]
+	    responsive: true,
+	    paging: true,
+	    "aoColumnDefs": 
+	    	[  {"aTargets": [ 4 ], "orderable": false },
+	    	   { "bSearchable": false, "aTargets": [ 4 ] }
+	    	 ],
+	    "order": [[ 0, "asc" ]],
+	    "language": {
+            "url": "../Resources/DataTables/Spanish.json"
+        }
 	});
 }
 
@@ -172,7 +116,8 @@ function initDataTable(id){
 
 
 $( document ).ready(function() {
-	
+	getAuthors();
+	initDataTable("#authorsTable");
 	validateRealId();
 	
 //	var values = [];

@@ -78,7 +78,6 @@ function validateNickname(){
 
 function savePseudonyms(idRow,idBookA){
 	var idRealAuthor = $("#pseudonyms"+idRow).val();
-	alert(idRealAuthor)
 	$.ajax({
 		type : "POST",
 		url : "../authorServlet",

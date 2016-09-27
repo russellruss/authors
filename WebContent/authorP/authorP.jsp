@@ -84,9 +84,8 @@
 															<thead>
 																<tr>
 																	<th>id Autor </th>
-																	<th>Autor</th>
-																	<th>Autor Obra</th>
-																	<th></th>
+																	<th>Nombre Autor</th>
+																	<th>seudónimo</th>
 																</tr>
 															</thead>
 															<tbody id="authorsList">

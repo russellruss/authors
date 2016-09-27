@@ -1,6 +1,7 @@
 package trillas.mx.servlets;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -12,6 +13,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import com.sun.xml.internal.fastinfoset.util.StringArray;
 
 import trillas.mx.DAO.AuthorProductionDAO;
 import trillas.mx.DAO.AuthorRegaliasDAO;
@@ -78,12 +81,24 @@ public class authorServlet extends HttpServlet {
 			case "saveSeudonimo":
 				authorPro.setIdAuthorProduction(Integer.parseInt(request.getParameter("idAproduction")));
 				seudonimo.setAuthorproduction(authorPro);
-				seudonimo.setPseudonymName(request.getParameter("seudonimo"));
-				authorProductionDAO.saveSeudonimo(seudonimo);
+				String seudonimoArr[] = request.getParameter("seudonimo").split("-");
+				for(String str : seudonimoArr){
+//					System.out.println(str);
+					seudonimo.setPseudonymName(str);
+					authorProductionDAO.saveSeudonimo(seudonimo);
+				}
+				jsonO.put("status", "ok");
+				response.setContentType("application/json");
+				response.getWriter().write(jsonO.toString());
 				break;
 			case "getAProduction":
-				
 				jsonO.put("BookA", bookAuthorDAO.getAllBookAuthors());
+				jsonO.put("status", "ok");
+				response.setContentType("application/json");
+				response.getWriter().write(jsonO.toString());
+				break;
+			case "seudonimo":
+				jsonO.put("authorPro", authorProductionDAO.getAllAuthorProduction());
 				jsonO.put("status", "ok");
 				response.setContentType("application/json");
 				response.getWriter().write(jsonO.toString());
